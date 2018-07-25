@@ -71,6 +71,9 @@ func main() {
 
 	handlerCors := cors.Default().Handler(router)
 
-	fmt.Println("[Forex App] : Application is running. ")
-	http.ListenAndServe(":8080", handlerCors)
+	fmt.Println("[Forex App] : Application starting. ")
+	err = http.ListenAndServe(":8080", handlerCors)
+	if err != nil {
+		log.Fatalf("[Forex App] : Application crash. Caused : %v", err)
+	}
 }

@@ -80,7 +80,7 @@ func (p *psqlExchangeRepository) Create(data *models.Exchange) (int64, error) {
 // public function to fetch exchange data
 func (p *psqlExchangeRepository) Fetch(page int, size int) ([]*models.Exchange, error) {
 	offset := page * size
-	query := "SELECT * FROM exchange_rate LIMIT $1 OFFSET $2;"
+	query := "SELECT id, from_cur, to_cur FROM exchange_rate LIMIT $1 OFFSET $2;"
 	return p.fetch(query, size, offset)
 }
 
