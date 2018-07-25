@@ -1,5 +1,5 @@
 
-# api-sample
+# api-sample-go
 A small project practice, create REST API using `Golang` + `Postgres` + `Docker`.
 
 I try to learn this architecture from [Trying Clean Architecure on Golang](https://hackernoon.com/golang-clean-archithecture-efd6d7c43047) .
