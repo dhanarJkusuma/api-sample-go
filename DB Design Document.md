@@ -1,6 +1,6 @@
 
 ## Database Design
-![alt text](https://raw.githubusercontent.com/dhanarJkusuma/api-sample/blob/master/db_design.PNG)
+![alt text](https://user-images.githubusercontent.com/6735183/43212614-a2204eac-905e-11e8-94b3-f2cd556f1f4f.PNG)
 
 ## Explanation
 From the diagram above, There are 2 table.
