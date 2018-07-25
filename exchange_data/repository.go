@@ -1,7 +1,7 @@
 package exchange_data
 
 import (
-	"forex/models"
+	"app/models"
 	"time"
 )
 

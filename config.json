@@ -1,9 +1,9 @@
 {
   "database": {
-      "host": "localhost",
+      "host": "db",
       "port": "5432",
-      "user": "forex",
-      "pass": "forex",
+      "user": "docker",
+      "pass": "docker",
       "name": "forex"
   }
 }

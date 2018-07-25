@@ -1,6 +1,6 @@
 package exchange_data
 
-import "forex/models"
+import "app/models"
 
 type ExchangeDataUseCase interface {
 	Create(data *models.ExchangeDataRequest) (*models.ExchangeDataRequest, error)

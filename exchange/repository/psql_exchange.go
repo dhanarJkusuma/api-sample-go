@@ -5,8 +5,8 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"forex/exchange"
-	"forex/models"
+	"app/exchange"
+	"app/models"
 	"log"
 )
 

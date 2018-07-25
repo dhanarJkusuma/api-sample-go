@@ -2,11 +2,11 @@ package usecase
 
 import (
 	"database/sql"
-	"forex/exchange"
-	"forex/exchange_data"
-	"forex/helper"
+	"app/exchange"
+	"app/exchange_data"
+	"app/helper"
 
-	"forex/models"
+	"app/models"
 )
 
 type exchangeDataUseCase struct {

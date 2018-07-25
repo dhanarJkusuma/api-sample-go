@@ -1,13 +1,13 @@
 package http
 
 import (
-	"forex/exchange"
+	"app/exchange"
 	goHttp "net/http"
 
-	"forex/helper"
+	"app/helper"
 	"strconv"
 
-	"forex/models"
+	"app/models"
 
 	"github.com/julienschmidt/httprouter"
 	validator "gopkg.in/go-playground/validator.v9"

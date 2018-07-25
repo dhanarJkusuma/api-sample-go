@@ -2,9 +2,9 @@ package usecase
 
 import (
 	"database/sql"
-	"forex/exchange"
+	"app/exchange"
 
-	"forex/models"
+	"app/models"
 )
 
 type exchangeUsecase struct {

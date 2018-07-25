@@ -1,0 +1,1308 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Loket open api",
+    "description": "Api for Category, Location, Ticket, and Transaction",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Server for production"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Server for development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Internal",
+      "description": "Api for Internal"
+    },
+    {
+      "name": "Ticket Creator",
+      "description": "Api for creating Location, and Ticket"
+    },
+    {
+      "name": "Customer",
+      "description": "Api for Purchasing Ticket"
+    }
+  ],
+  "paths": {
+    "/internal/category/create": {
+      "post": {
+        "summary": "API for create new category.",
+        "tags": [
+          "Internal"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "create successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryInternalResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/category/get_info": {
+      "get": {
+        "summary": "API for get list of categories.",
+        "tags": [
+          "Internal"
+        ],
+        "responses": {
+          "200": {
+            "description": "create successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryInternalResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/category/get_detail": {
+      "get": {
+        "summary": "API for get detail category",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          }
+        ],
+        "tags": [
+          "Internal"
+        ],
+        "responses": {
+          "200": {
+            "description": "detail of category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryInternalResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "category not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/category/update": {
+      "put": {
+        "summary": "API for update category.",
+        "tags": [
+          "Internal"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "create successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryInternalResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/category/delete": {
+      "delete": {
+        "summary": "API for soft delete category.",
+        "tags": [
+          "Internal"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully."
+          },
+          "404": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/get_info": {
+      "get": {
+        "summary": "API for get list of categories.",
+        "tags": [
+          "Ticket Creator"
+        ],
+        "responses": {
+          "200": {
+            "description": "create successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/location/create": {
+      "post": {
+        "summary": "API for create new location",
+        "tags": [
+          "Ticket Creator"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "create successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/location/get_info": {
+      "get": {
+        "summary": "API for get list of categories",
+        "tags": [
+          "Ticket Creator",
+          "Customer"
+        ],
+        "responses": {
+          "200": {
+            "description": "list of categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocationResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/create": {
+      "post": {
+        "summary": "API for create new Event",
+        "tags": [
+          "Ticket Creator"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "create successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/upload_thumbnail": {
+      "post": {
+        "summary": "API for upload thumbnail event",
+        "tags": [
+          "Ticket Creator"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "slug name event parameter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "detail of event",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/upload_organizer": {
+      "post": {
+        "summary": "API for upload organizer picture",
+        "tags": [
+          "Ticket Creator"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "slug",
+            "description": "slug name event parameter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "detail of event",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/get_info": {
+      "get": {
+        "summary": "API for get detail category",
+        "parameters": [
+          {
+            "in": "query",
+            "description": "page variable in pagination",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "description": "size variable in pagination",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search_name",
+            "description": "variable search by name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search_date",
+            "description": "variable search by date",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "in": "query",
+            "name": "city",
+            "description": "variable search by city",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "description": "variable search by category slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Ticket Creator",
+          "Customer"
+        ],
+        "responses": {
+          "200": {
+            "description": "list of events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventPagination"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/get_detail": {
+      "get": {
+        "summary": "API for get detail event",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          }
+        ],
+        "tags": [
+          "Ticket Creator",
+          "Customer"
+        ],
+        "responses": {
+          "200": {
+            "description": "detail of event",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/ticket/create": {
+      "post": {
+        "summary": "API for create ticket",
+        "tags": [
+          "Ticket Creator",
+          "Customer"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "create successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/purchase": {
+      "post": {
+        "summary": "API for create transaction",
+        "tags": [
+          "Customer"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "create successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderTransactionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/get_info": {
+      "get": {
+        "summary": "API for fetch transaction",
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "variable page for pagination",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "description": "variable size for pagination",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "list data of transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderTransactionPagination"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CategoryInternalResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "CategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        }
+      },
+      "LocationRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "address",
+          "city",
+          "latitude",
+          "longitude"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "LocationResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      },
+      "EventRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "organizerName",
+          "description",
+          "startDate",
+          "endDate",
+          "startTime",
+          "endTime",
+          "categoryId",
+          "locationId"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "organizerName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "startTime": {
+            "type": "string"
+          },
+          "endTime": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "number",
+            "format": "int64"
+          },
+          "locationId": {
+            "type": "number",
+            "format": "int64"
+          }
+        }
+      },
+      "EventResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "thumbnailPhoto": {
+            "type": "string"
+          },
+          "organizerName": {
+            "type": "string"
+          },
+          "organizerPhoto": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "startTime": {
+            "type": "string"
+          },
+          "endTime": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/EventLocationResponse"
+          },
+          "category": {
+            "type": "string"
+          },
+          "categorySlug": {
+            "type": "string"
+          }
+        }
+      },
+      "EventLocationResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "EventPagination": {
+        "type": "object",
+        "properties": {
+          "totalItem": {
+            "type": "number",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "number",
+            "format": "int32"
+          },
+          "currentPage": {
+            "type": "number",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventResponse"
+            }
+          }
+        }
+      },
+      "EventDetailResponse": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "$ref": "#/components/schemas/EventResponse"
+          },
+          "tickets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TicketSummaryResponse"
+            }
+          }
+        }
+      },
+      "TicketSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "ticketId": {
+            "type": "number",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "int64"
+          },
+          "actualQuantity": {
+            "type": "number",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "flag": {
+            "type": "string",
+            "enum": [
+              "PAID",
+              "FREE"
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "TicketCreateRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "eventId",
+          "quantity",
+          "description",
+          "flag",
+          "price",
+          "startDate",
+          "endDate"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "eventId": {
+            "type": "number",
+            "format": "int64"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "flag": {
+            "type": "string",
+            "enum": [
+              "PAID",
+              "FREE"
+            ]
+          },
+          "price": {
+            "type": "number"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "TicketResponse": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "$ref": "#/components/schemas/EventResponse"
+          },
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "int64"
+          },
+          "actualQuantity": {
+            "type": "number",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "flag": {
+            "type": "string",
+            "enum": [
+              "PAID",
+              "FREE"
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "CheckoutCustomerRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          }
+        }
+      },
+      "CheckoutItemRequest": {
+        "type": "object",
+        "properties": {
+          "ticketId": {
+            "type": "number",
+            "format": "int64"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "int64"
+          }
+        }
+      },
+      "CheckoutRequest": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/CheckoutCustomerRequest"
+          },
+          "eventId": {
+            "type": "number",
+            "format": "int64"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CheckoutItemRequest"
+            }
+          }
+        }
+      },
+      "OrderTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "invoiceNo": {
+            "type": "string"
+          },
+          "orderDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "event": {
+            "$ref": "#/components/schemas/EventResponse"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/OrderTransactionCustomerResponse"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderTransactionItemResponse"
+            }
+          }
+        }
+      },
+      "OrderTransactionCustomerResponse": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          }
+        }
+      },
+      "OrderTransactionItemResponse": {
+        "type": "object",
+        "properties": {
+          "ticketName": {
+            "type": "string"
+          },
+          "ticketFlag": {
+            "type": "string",
+            "enum": [
+              "PAID",
+              "FREE"
+            ]
+          },
+          "quantity": {
+            "type": "number",
+            "format": "int64"
+          },
+          "price": {
+            "type": "number"
+          },
+          "totalPrice": {
+            "type": "number"
+          }
+        }
+      },
+      "OrderTransactionPagination": {
+        "type": "object",
+        "properties": {
+          "totalItem": {
+            "type": "number",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "number",
+            "format": "int32"
+          },
+          "currentPage": {
+            "type": "number",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderTransactionResponse"
+            }
+          }
+        }
+      },
+      "NotFoundResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "BadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "object",
+            "properties": {
+              "field_name": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

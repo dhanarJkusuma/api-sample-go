@@ -1,7 +1,7 @@
 package exchange
 
 import (
-	"forex/models"
+	"app/models"
 )
 
 type ExchangeUsecase interface {

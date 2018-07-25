@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
-	"forex/exchange_data"
-	"forex/helper"
-	"forex/models"
+	"app/exchange_data"
+	"app/helper"
+	"app/models"
 	"strconv"
 
 	_ "github.com/lib/pq"

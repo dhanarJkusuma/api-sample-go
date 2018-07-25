@@ -6,13 +6,13 @@ import (
 	"log"
 	"net/http"
 
-	exchangeHttp "forex/exchange/delivery/http"
-	exchangeRepo "forex/exchange/repository"
-	exchangeUsecase "forex/exchange/usecase"
+	exchangeHttp "app/exchange/delivery/http"
+	exchangeRepo "app/exchange/repository"
+	exchangeUsecase "app/exchange/usecase"
 
-	exchangeDataHttp "forex/exchange_data/delivery/http"
-	exchangeDataRepo "forex/exchange_data/repository"
-	exchangeDataUseCase "forex/exchange_data/usecase"
+	exchangeDataHttp "app/exchange_data/delivery/http"
+	exchangeDataRepo "app/exchange_data/repository"
+	exchangeDataUseCase "app/exchange_data/usecase"
 
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
