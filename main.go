@@ -16,10 +16,12 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
+	"github.com/rs/cors"
 	"github.com/spf13/viper"
 )
 
 func init() {
+	fmt.Println("[Forex App] : Init Config. ")
 	viper.SetConfigFile(`config.json`)
 	err := viper.ReadInConfig()
 
@@ -38,6 +40,7 @@ func main() {
 	dbName := viper.GetString(`database.name`)
 
 	// open db connection
+	fmt.Println("[Forex App] : Connecting to the Database. ")
 	stringConfig := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, pass, host, port, dbName)
 	dbConn, err := sql.Open("postgres", stringConfig)
 	if err != nil {
@@ -49,7 +52,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	fmt.Println("Database connected successfully.")
+	fmt.Println("[Forex App] : Database Connected. ")
 
 	// init router
 	router := httprouter.New()
@@ -66,6 +69,8 @@ func main() {
 	exchangeHttp.CreateHttpExchangeHandler(router, eu)
 	exchangeDataHttp.CreateHttpExchangeDataHandler(router, edu)
 
-	http.ListenAndServe(":8080", router)
+	handlerCors := cors.Default().Handler(router)
 
+	fmt.Println("[Forex App] : Application is running. ")
+	http.ListenAndServe(":8080", handlerCors)
 }

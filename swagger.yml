@@ -1,0 +1,228 @@
+openapi: 3.0.0
+
+info:
+  title: Forex Open API
+  description: API Documentation for Forex API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Server for production
+  - url: http://localhost:8080
+    description: Server for development
+
+tags:
+  - name: "Exchange Currency"
+    description: Api for Management Exchange Currency
+  - name: "Exchange currency Rate"
+    description: Api for creating Location, and Ticket
+
+paths:
+  # Exchange Currency
+
+  "/api/exchange":
+     post:
+      summary: API for create new Exchange Currency.
+      tags: ["Exchange Currency"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - from
+              - to
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+      responses:
+        '201':
+          description: create successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeCurrency'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema :
+                $ref: '#/components/schemas/BadRequestResponse'
+     get:
+        summary: API for get List Exchange Currency.
+        tags: ["Exchange Currency"]
+        responses:
+          '200':
+            description: list of exchange currency
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ExchangeCurrency'
+          '400':
+            description: invalid request
+            content:
+              application/json:
+                schema :
+                  $ref: '#/components/schemas/BadRequestResponse'
+     delete:
+        summary: API for get List Exchange Currency.
+        tags: ["Exchange Currency"]
+        parameters:
+        - name: from
+          in: query
+          description: Attribute `from` in object Exchange Currency
+          required: true
+          schema:
+            type: string
+        - name: to
+          in: query
+          description: Attribute `to` in object Exchange Currency
+          required: true
+          schema:
+            type: string
+        responses:
+          '204':
+            description: Exchange Currency has been deleted successfully.
+          '400':
+            description: invalid request
+            content:
+              application/json:
+                schema :
+                  $ref: '#/components/schemas/BadRequestResponse'
+          '404':
+            description: Data with parameter from & to doesn't exist
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+
+  # End Exchange Currency
+
+  # Exchange Data Rate
+
+  "/api/exchange/rate":
+     get:
+      summary: API for get list of rate by date.
+      tags: ["Exchange currency Rate"]
+      parameters:
+        - name: search_date
+          in: query
+          description: Attribute `from` in object Exchange Currency
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of exchange rate
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExchangeRateAggregate'
+     post:
+      summary: API for create new Exchange Rate
+      tags: ["Exchange currency Rate"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+             $ref: '#/components/schemas/ExchangeRateRequest'
+      responses:
+        '201':
+          description: create successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeRate'
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema :
+                $ref: '#/components/schemas/BadRequestResponse'
+
+  # End Exchange Data Rate
+
+components:
+
+  schemas:
+
+    ExchangeCurrency:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        from:
+          type: string
+        to:
+          type: string
+
+    ExchangeRateRequest:
+      type: object
+      required:
+        - from
+        - to
+        - date
+        - rate
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        date:
+          type: string
+          format: date
+        rate:
+          type: number
+          format: float64
+
+    ExchangeRate:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        from:
+          type: string
+        to:
+          type: string
+        date:
+          type: string
+          format: date
+        rate:
+          type: number
+          format: float64
+
+    ExchangeRateAggregate:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        rate:
+          type: number
+          format: float64
+        from:
+          type: string
+        to:
+          type: string
+        average:
+          type: number
+          format: float64
+
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string

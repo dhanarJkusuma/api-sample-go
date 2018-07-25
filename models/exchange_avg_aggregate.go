@@ -11,9 +11,9 @@ type ExchangeAvgAggregate struct {
 	DateString string   `json:"date"`
 	Rate       float64  `json:"-"`
 	RateString string   `json:"rate"`
-	From       string
-	To         string
-	Average    float64
+	From       string   `json:"from"`
+	To         string   `json:"to"`
+	Average    float64  `json:"average"`
 }
 
 type NullTime struct {

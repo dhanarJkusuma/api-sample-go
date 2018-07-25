@@ -19,6 +19,7 @@ type HttpExchangeHandler struct {
 
 // handler for fetch
 func (h *HttpExchangeHandler) Fetch(w goHttp.ResponseWriter, req *goHttp.Request, params httprouter.Params) {
+	helper.HandleCORS(&w, req)
 	page, err := strconv.Atoi(params.ByName("page"))
 	if err != nil {
 		page = 0
@@ -37,6 +38,7 @@ func (h *HttpExchangeHandler) Fetch(w goHttp.ResponseWriter, req *goHttp.Request
 
 // handler for create
 func (h *HttpExchangeHandler) Create(w goHttp.ResponseWriter, req *goHttp.Request, _ httprouter.Params) {
+	helper.HandleCORS(&w, req)
 	var data models.Exchange
 	helper.UnMarshall(req.Body, &data)
 
@@ -61,16 +63,22 @@ func (h *HttpExchangeHandler) Create(w goHttp.ResponseWriter, req *goHttp.Reques
 }
 
 // handler for delete
-func (h *HttpExchangeHandler) Destroy(w goHttp.ResponseWriter, req *goHttp.Request, _ httprouter.Params) {
-	var data models.Exchange
-	helper.UnMarshall(req.Body, &data)
-
-	if ok, err := isRequestValid(&data); !ok {
-		helper.RespondError(w, goHttp.StatusBadRequest, err.Error())
+func (h *HttpExchangeHandler) Destroy(w goHttp.ResponseWriter, req *goHttp.Request, params httprouter.Params) {
+	helper.HandleCORS(&w, req)
+	query := req.URL.Query()
+	from := query.Get("from")
+	if from == "" {
+		helper.RespondError(w, goHttp.StatusBadRequest, `Query "from" is Required.`)
 		return
 	}
 
-	err := h.UseCase.Destroy(data.From, data.To)
+	to := query.Get("to")
+	if to == "" {
+		helper.RespondError(w, goHttp.StatusBadRequest, `Query "to" is Required.`)
+		return
+	}
+
+	err := h.UseCase.Destroy(from, to)
 	if err != nil {
 		switch err {
 		case models.NOT_FOUND_ERROR:

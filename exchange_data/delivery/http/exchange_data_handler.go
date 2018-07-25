@@ -18,6 +18,8 @@ type HttpExchangeDataHandler struct {
 }
 
 func (h *HttpExchangeDataHandler) Create(w goHttp.ResponseWriter, req *goHttp.Request, _ httprouter.Params) {
+	helper.HandleCORS(&w, req)
+
 	var data models.ExchangeDataRequest
 	helper.UnMarshall(req.Body, &data)
 
@@ -45,10 +47,12 @@ func (h *HttpExchangeDataHandler) Create(w goHttp.ResponseWriter, req *goHttp.Re
 }
 
 func (h *HttpExchangeDataHandler) GetAvg(w goHttp.ResponseWriter, req *goHttp.Request, _ httprouter.Params) {
+	helper.HandleCORS(&w, req)
+
 	query := req.URL.Query()
 	date := query.Get("search_date")
 	if date == "" {
-		helper.RespondError(w, goHttp.StatusBadRequest, "Query search_date is Required.")
+		helper.RespondError(w, goHttp.StatusBadRequest, `Query "search_date" is Required.`)
 		return
 	}
 	result, err := h.UseCase.GetAvgRate(date)
@@ -80,6 +84,6 @@ func CreateHttpExchangeDataHandler(router *httprouter.Router, uc exchange_data.E
 		UseCase: uc,
 	}
 
-	router.POST("/api/rate", handler.Create)
-	router.GET("/api/rate", handler.GetAvg)
+	router.POST("/api/exchange/rate", handler.Create)
+	router.GET("/api/exchange/rate", handler.GetAvg)
 }
