@@ -30,3 +30,5 @@ Library that I've used for coding
 - [HttpRouter](https://github.com/julienschmidt/httprouter)
 - [go-sqlmock](https://gopkg.in/DATA-DOG/go-sqlmock.v1)
 - [validator](https://github.com/go-playground/validator)
+- [viper]("https://github.com/spf13/viper")
+- [Go CORS Handler](https://github.com/rs/cors)
